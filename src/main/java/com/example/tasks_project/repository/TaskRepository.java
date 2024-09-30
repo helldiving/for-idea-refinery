@@ -40,4 +40,8 @@ public class TaskRepository {
         }
         return task;
     }
+
+    public void delete(Task task) {
+        tasks.remove(task);
+    }
 }

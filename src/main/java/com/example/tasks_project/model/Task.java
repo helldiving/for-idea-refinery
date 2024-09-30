@@ -1,7 +1,5 @@
 package com.example.tasks_project.model;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.Date;
 
 public class Task {
