@@ -4,9 +4,7 @@ package com.example.tasks_project.controller;
 import com.example.tasks_project.model.Task;
 import com.example.tasks_project.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +19,32 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getAllTasks() {
-        List<Task> tasks = new ArrayList<>();
-        tasks.add(new Task("Task 1", "Test Description of Task 1", false));
-        tasks.add(new Task("Task 2", "Test Description of Task 2", true));
-        return tasks;
+        return taskRepository.findAll();
     }
+
+    // GET
+    @GetMapping("/{id}")
+    public Task getTaskById(@PathVariable Long id) {
+        return taskRepository.findById(id);
+    }
+
+    // POST
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        return taskRepository.save(task);
+    }
+
+    // PUT
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
+        Task task = taskRepository.findById(id);
+        if (task != null) {
+            task.setTitle(taskDetails.getTitle());
+            task.setDescription(taskDetails.getDescription());
+            task.setCompleted(taskDetails.isCompleted());
+            return taskRepository.save(task);
+        }
+        return null;
+    }
+
 }

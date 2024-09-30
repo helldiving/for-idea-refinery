@@ -10,17 +10,34 @@ import java.util.List;
 public class TaskRepository {
 
     private List<Task> tasks = new ArrayList<>();
+    private long idCounter = 1;
 
     public List<Task> findAll() {
         return tasks;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public Task findById(Long id) {
+        for (Task task : tasks) {
+            if (task.getId().equals(id)) {
+                return task;
+            }
+        }
+        return null;
     }
 
-
-
-
-
+    // Save method
+    public Task save(Task task) {
+        if (task.getId() == null) {
+            task.setId(idCounter++);
+            tasks.add(task);
+        } else {
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).getId().equals(task.getId())) {
+                tasks.set(i, task);
+                break;
+                }
+            }
+        }
+        return task;
+    }
 }
